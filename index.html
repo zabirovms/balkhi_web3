@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="tg" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ашъори Балхӣ (Румӣ)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu&family=Scheherazade+New&display=swap');
+        
+        :root {
+            --primary: #8e2323;
+            --primary-dark: #5a1515;
+            --secondary: #d4b483;
+            --bg: #f9f5e9;
+            --text: #333;
+            --text-light: #f9f5e9;
+        }
+        
+        body {
+            font-family: 'Scheherazade New', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .persian-font {
+            font-family: 'Noto Nastaliq Urdu', 'Scheherazade New', serif;
+            font-size: 1.2rem;
+            line-height: 2.5;
+        }
+        
+        .verse-highlight {
+            background-color: rgba(212, 180, 131, 0.3);
+            border-radius: 4px;
+            padding: 0 2px;
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .book-cover {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .book-cover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .persian-font {
+                font-size: 1rem;
+                line-height: 2;
+            }
+            
+            .book-cover {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-red-900 to-red-700 text-white py-6 shadow-lg">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col items-center">
+                <div class="flex items-center mb-4">
+                    <i class="fas fa-book-open text-3xl mr-3 text-yellow-200"></i>
+                    <h1 class="text-3xl md:text-4xl font-bold text-center">Ашъори Ҷалолуддини Балхӣ (Румӣ)</h1>
+                </div>
+                <p class="text-lg text-yellow-100 text-center max-w-2xl">Маҷмӯъаи комили ашъори шоири бузургони форс-тоҷик</p>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Navigation -->
+    <nav class="bg-red-900 text-white sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4">
+            <ul class="flex flex-wrap justify-center space-x-6 space-x-reverse py-3">
+                <li><a href="#" class="nav-link active" data-section="home"><i class="fas fa-home mr-2"></i>Асосӣ</a></li>
+                <li><a href="#" class="nav-link" data-section="masnavi"><i class="fas fa-book mr-2"></i>Маснавӣ</a></li>
+                <li><a href="#" class="nav-link" data-section="divan"><i class="fas fa-pen-fancy mr-2"></i>Девони Шамс</a></li>
+                <li><a href="#" class="nav-link" data-section="favorites"><i class="fas fa-heart mr-2"></i>Интихобӣ</a></li>
+                <li><a href="#" class="nav-link" data-section="about"><i class="fas fa-info-circle mr-2"></i>Дар бораи шоир</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="flex-grow container mx-auto px-4 py-8">
+        <!-- Search section -->
+        <section id="search-section" class="mb-10 bg-white p-6 rounded-lg shadow-md">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="relative flex-grow">
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-gray-500">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <input type="text" id="search-input" 
+                           class="w-full pr-10 py-3 px-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500 text-lg" 
+                           placeholder="Ҷустуҷӯи ашъор...">
+                </div>
+                <div class="flex space-x-2 space-x-reverse">
+                    <button id="search-btn" class="bg-red-700 hover:bg-red-800 text-white px-6 py-3 rounded-lg transition duration-300 flex items-center">
+                        <i class="fas fa-search mr-2"></i> Ҷустуҷӯ
+                    </button>
+                    <button id="advanced-search-toggle" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-3 rounded-lg transition duration-300">
+                        <i class="fas fa-sliders-h"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Advanced search options -->
+            <div id="advanced-search" class="hidden mt-4 pt-4 border-t border-gray-200">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Китоб</label>
+                        <select id="search-book" class="w-full p-2 border border-gray-300 rounded">
+                            <option value="">Ҳамаи китобҳо</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Навъи ҷустуҷӯ</label>
+                        <select id="search-type" class="w-full p-2 border border-gray-300 rounded">
+                            <option value="all">Ҳамаи матн</option>
+                            <option value="title">Танҳо унвонҳо</option>
+                            <option value="first-verse">Мисраъи аввал</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Ҷустуҷӯи дақиқ</label>
+                        <div class="flex items-center">
+                            <input type="checkbox" id="exact-match" class="mr-2">
+                            <label for="exact-match">Мутобиқати дақиқ</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Home section -->
+        <section id="home" class="section-content">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-red-800 mb-4">Хуш омадед!</h2>
+                <p class="text-lg text-gray-700 max-w-3xl mx-auto">
+                    Ин пойгоҳи маълумотӣ ҳамаи ашъори Ҷалолуддини Балхӣ (Мавлоно Румӣ)-ро дар бар мегирад. 
+                    Шумо метавонед ҳамаи китобҳо, ғазалҳо ва ашъори ин шоири бузургро дар ин ҷо бихонед ва ҷустуҷӯ кунед.
+                </p>
+            </div>
+            
+            <h3 class="text-2xl font-semibold text-red-800 mb-6 border-b pb-2">Китобҳои мавҷуда</h3>
+            <div id="books-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="text-center py-12">
+                    <div class="loading-spinner"></div>
+                    <p class="mt-4 text-gray-600">Дар ҳоли боргирии маълумот...</p>
+                </div>
+            </div>
+            
+            <div class="mt-12 bg-white p-6 rounded-lg shadow-md">
+                <h3 class="text-2xl font-semibold text-red-800 mb-4">Ғазали интихобӣ</h3>
+                <div id="random-poem" class="persian-font text-xl p-4 bg-gray-50 rounded">
+                    <div class="text-center py-8">
+                        <i class="fas fa-spinner fa-spin text-2xl text-red-700"></i>
+                        <p class="mt-2 text-gray-600">Дар ҳоли интихоби ғазал...</p>
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <button id="refresh-random" class="bg-red-100 hover:bg-red-200 text-red-800 px-6 py-2 rounded-lg transition duration-300">
+                        <i class="fas fa-sync-alt mr-2"></i> Ғазали дигар
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Masnavi section -->
+        <section id="masnavi" class="section-content hidden">
+            <div id="masnavi-content" class="text-center py-8">
+                <div class="loading-spinner"></div>
+                <p class="mt-2 text-gray-600">Дар ҳоли боргирии Маснавӣ...</p>
+            </div>
+        </section>
+
+        <!-- Divan-e Shams section -->
+        <section id="divan" class="section-content hidden">
+            <div id="divan-content" class="text-center py-8">
+                <div class="loading-spinner"></div>
+                <p class="mt-2 text-gray-600">Дар ҳоли боргирии Девони Шамс...</p>
+            </div>
+        </section>
+
+        <!-- Favorites section -->
+        <section id="favorites" class="section-content hidden">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-2xl font-semibold text-red-800 mb-6 flex items-center">
+                    <i class="fas fa-heart text-red-600 mr-3"></i> Ғазалҳои интихобӣ
+                </h2>
+                <div id="favorites-list" class="persian-font">
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-heart-broken text-3xl mb-3"></i>
+                        <p>Ҳоло ҳеҷ ғазалеро интихоб накардаед.</p>
+                        <p class="text-sm mt-2">Барои илова кардани ғазалҳо ба интихобӣ, тугмаи <i class="fas fa-heart text-red-500"></i>-ро дар поёни ҳар ғазал пахш кунед.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About section -->
+        <section id="about" class="section-content hidden">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-2xl font-semibold text-red-800 mb-6">Дар бораи Ҷалолуддини Балхӣ (Румӣ)</h2>
+                
+                <div class="flex flex-col md:flex-row gap-6 mb-8">
+                    <div class="md:w-1/3">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5d/Mevlana_portrait.jpg" 
+                             alt="Portrait of Rumi" class="w-full rounded-lg shadow-md">
+                    </div>
+                    <div class="md:w-2/3">
+                        <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                            Ҷалолуддини Муҳаммади Балхӣ (1207-1273), маъруф ба Мавлоно ва Румӣ, яке аз бузургтарин шоирону орифони форс-тоҷик аст. Вай дар шаҳри Балх (ҳоло дар Афғонистон) таваллуд шудааст, вале баъдҳо ба қафомонди Рум (Анатолияи кунунӣ) кӯчид ва дар он ҷо зиндагӣ кард.
+                        </p>
+                        <p class="text-gray-700 mb-4 text-lg leading-relaxed">
+                            Ашъори Румӣ ба забони форсӣ-тоҷикӣ навишта шудаанд ва дар тамоми ҷаҳон шинохта шудаанд. Машҳуртарин асарҳои ӯ "Маснавии маънавӣ" ва "Девони Шамс" мебошанд, ки дар онҳо мавзӯъҳои ирфонӣ, ишқӣ ва фалсафӣ ба таври шеърӣ ифода шудаанд.
+                        </p>
+                    </div>
+                </div>
+                
+                <h3 class="text-xl font-semibold text-red-800 mb-4 border-b pb-2">Асарҳои асосӣ</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-lg text-red-700 mb-2">Маснавии маънавӣ</h4>
+                        <p class="text-gray-600">Шеърҳои дароз бо мазмуни ирфонӣ ва ахлоқӣ, ки ба 6 ҷилд тақсим шудаанд. Ин китобро бо номи "Қуръони форсӣ" низ мешиносанд.</p>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-semibold text-lg text-red-700 mb-2">Девони Шамс</h4>
+                        <p class="text-gray-600">Маҷмӯъаи ғазалҳо ва рубоиҳо, ки ба хотири устоди Румӣ Шамси Табрезӣ эҷод шудаанд. Ин ашъор мавзӯъҳои ишқӣ ва ирфонӣ доранд.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Poems display section -->
+        <section id="poems-display" class="hidden">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <button id="back-btn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg mb-4 transition duration-300 flex items-center">
+                    <i class="fas fa-arrow-right ml-2"></i> Бозгашт
+                </button>
+                
+                <div id="breadcrumbs" class="text-sm text-gray-600 mb-4 flex items-center">
+                    <span id="current-book-crumb" class="hover:text-red-700 cursor-pointer"></span>
+                    <span id="current-poem-crumb" class="hidden"><i class="fas fa-angle-left mx-2"></i><span class="hover:text-red-700 cursor-pointer"></span></span>
+                </div>
+                
+                <div id="current-poem" class="persian-font fade-in">
+                    <!-- Poem content will be loaded here -->
+                </div>
+                
+                <div id="poem-actions" class="mt-6 pt-4 border-t border-gray-200 flex justify-between">
+                    <div>
+                        <button id="prev-poem" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition duration-300 hidden">
+                            <i class="fas fa-arrow-right ml-2"></i> Қабли
+                        </button>
+                    </div>
+                    <div class="flex space-x-2 space-x-reverse">
+                        <button id="favorite-btn" class="bg-red-100 hover:bg-red-200 text-red-800 px-4 py-2 rounded-lg transition duration-300">
+                            <i class="far fa-heart mr-2"></i> Интихоб
+                        </button>
+                        <button id="share-btn" class="bg-blue-100 hover:bg-blue-200 text-blue-800 px-4 py-2 rounded-lg transition duration-300">
+                            <i class="fas fa-share-alt mr-2"></i> Мубодила
+                        </button>
+                    </div>
+                    <div>
+                        <button id="next-poem" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition duration-300 hidden">
+                            Баъдӣ <i class="fas fa-arrow-left mr-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search results section -->
+        <section id="search-results" class="hidden">
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-2xl font-semibold text-red-800 flex items-center">
+                        <i class="fas fa-search mr-3"></i> Натоиҷи ҷустуҷӯ
+                    </h2>
+                    <button id="back-from-search" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-4 py-2 rounded-lg transition duration-300">
+                        <i class="fas fa-arrow-right ml-2"></i> Бозгашт
+                    </button>
+                </div>
+                
+                <div id="search-results-count" class="text-gray-600 mb-4">
+                    <!-- Results count will be shown here -->
+                </div>
+                
+                <div id="search-results-list" class="space-y-4">
+                    <!-- Search results will be loaded here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gradient-to-r from-red-900 to-red-700 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h3 class="text-xl font-bold mb-2">Ашъори Балхӣ</h3>
+                    <p class="text-yellow-100">Маҷмӯъаи комили ашъори Ҷалолуддини Балхӣ</p>
+                </div>
+                
+                <div class="flex space-x-4 space-x-reverse">
+                    <a href="#" class="text-white hover:text-yellow-200 transition duration-300 text-xl">
+                        <i class="fab fa-telegram"></i>
+                    </a>
+                    <a href="#" class="text-white hover:text-yellow-200 transition duration-300 text-xl">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" class="text-white hover:text-yellow-200 transition duration-300 text-xl">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" class="text-white hover:text-yellow-200 transition duration-300 text-xl">
+                        <i class="fab fa-facebook"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="border-t border-red-800 mt-6 pt-6 text-center text-yellow-100">
+                <p>Ҳамаи ҳуқуқҳо маҳфуз аст. © 2023 Ашъори Балхӣ</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Share modal -->
+    <div id="share-modal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold text-red-800">Мубодилаи ғазал</h3>
+                <button id="close-share-modal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="mb-4">
+                <label class="block text-gray-700 mb-2">Роҳҳои мубодила</label>
+                <div class="flex space-x-3 space-x-reverse justify-center">
+                    <button class="share-option bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full">
+                        <i class="fab fa-telegram text-xl"></i>
+                    </button>
+                    <button class="share-option bg-pink-500 hover:bg-pink-600 text-white p-3 rounded-full">
+                        <i class="fab fa-whatsapp text-xl"></i>
+                    </button>
+                    <button class="share-option bg-blue-400 hover:bg-blue-500 text-white p-3 rounded-full">
+                        <i class="fab fa-twitter text-xl"></i>
+                    </button>
+                    <button class="share-option bg-gray-700 hover:bg-gray-800 text-white p-3 rounded-full">
+                        <i class="fas fa-link text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div>
+                <label class="block text-gray-700 mb-2">Истинод</label>
+                <div class="flex">
+                    <input type="text" id="share-link" class="flex-grow p-2 border border-gray-300 rounded-l" readonly>
+                    <button id="copy-link" class="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-r">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Main application state
+        const appState = {
+            currentBook: null,
+            currentPoem: null,
+            currentPoemIndex: null,
+            currentBookPoems: [],
+            favorites: JSON.parse(localStorage.getItem('favorites')) || {},
+            books: [],
+            searchResults: [],
+            currentPage: 1,
+            poemsPerPage: 10,
+            apiBaseUrl: 'http://localhost:3000/api' // Update this to your server URL
+        };
+
+        // DOM elements
+        const elements = {
+            homeSection: document.getElementById('home'),
+            masnaviSection: document.getElementById('masnavi'),
+            divanSection: document.getElementById('divan'),
+            favoritesSection: document.getElementById('favorites'),
+            aboutSection: document.getElementById('about'),
+            poemsDisplaySection: document.getElementById('poems-display'),
+            searchResultsSection: document.getElementById('search-results'),
+            booksList: document.getElementById('books-list'),
+            currentPoem: document.getElementById('current-poem'),
+            searchResultsList: document.getElementById('search-results-list'),
+            searchResultsCount: document.getElementById('search-results-count'),
+            randomPoem: document.getElementById('random-poem'),
+            navLinks: document.querySelectorAll('.nav-link'),
+            backBtn: document.getElementById('back-btn'),
+            backFromSearch: document.getElementById('back-from-search'),
+            searchInput: document.getElementById('search-input'),
+            searchBtn: document.getElementById('search-btn'),
+            advancedSearchToggle: document.getElementById('advanced-search-toggle'),
+            advancedSearch: document.getElementById('advanced-search'),
+            searchBook: document.getElementById('search-book'),
+            searchType: document.getElementById('search-type'),
+            exactMatch: document.getElementById('exact-match'),
+            prevPoem: document.getElementById('prev-poem'),
+            nextPoem: document.getElementById('next-poem'),
+            favoriteBtn: document.getElementById('favorite-btn'),
+            shareBtn: document.getElementById('share-btn'),
+            refreshRandom: document.getElementById('refresh-random'),
+            breadcrumbs: document.getElementById('breadcrumbs'),
+            currentBookCrumb: document.getElementById('current-book-crumb'),
+            currentPoemCrumb: document.getElementById('current-poem-crumb'),
+            shareModal: document.getElementById('share-modal'),
+            closeShareModal: document.getElementById('close-share-modal'),
+            shareLink: document.getElementById('share-link'),
+            copyLink: document.getElementById('copy-link')
+        };
+
+        // Initialize the application
+        async function init() {
+            // Show loading state
+            elements.booksList.innerHTML = `
+                <div class="text-center py-12">
+                    <div class="loading-spinner"></div>
+                    <p class="mt-4 text-gray-600">Дар ҳоли боргирии маълумот...</p>
+                </div>
+            `;
+
+            try {
+                // Load books
+                const booksResponse = await fetch(`${appState.apiBaseUrl}/books`);
+                if (!booksResponse.ok) throw new Error('Failed to load books');
+                appState.books = await booksResponse.json();
+                
+                // Populate book dropdown in search
+                populateBookDropdown();
+                
+                // Display books
+                displayBooks();
+                
+                // Load random poem
+                loadRandomPoem();
+                
+                // Update favorites UI
+                updateFavoritesUI();
+                
+            } catch (error) {
+                console.error('Error initializing app:', error);
+                elements.booksList.innerHTML = `
+                    <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded">
+                        <p class="font-bold">Хатогӣ</p>
+                        <p>Хатоги дар боргирии маълумот. Лутфан баъдтар аз нав санҷед.</p>
+                        <button onclick="window.location.reload()" class="mt-2 bg-red-600 text-white px-4 py-2 rounded">
+                            <i class="fas fa-sync-alt mr-2"></i> Аз нав кӯшиш кунед
+                        </button>
+                    </div>
+                `;
+            }
+
+            setupEventListeners();
+        }
+
+        // Set up all event listeners
+        function setupEventListeners() {
+            // Navigation links
+            elements.navLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const section = link.dataset.section;
+                    
+                    // Update active nav link
+                    elements.navLinks.forEach(l => l.classList.remove('active'));
+                    link.classList.add('active');
+                    
+                    // Show the corresponding section
+                    showSection(section);
+                });
+            });
+
+            // Back buttons
+            elements.backBtn.addEventListener('click', backToPreviousView);
+            elements.backFromSearch.addEventListener('click', backToPreviousView);
+
+            // Search functionality
+            elements.searchBtn.addEventListener('click', searchPoems);
+            elements.searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    searchPoems();
+                }
+            });
+
+            // Poem navigation
+            elements.prevPoem.addEventListener('click', showPreviousPoem);
+            elements.nextPoem.addEventListener('click', showNextPoem);
+
+            // Favorite button
+            elements.favoriteBtn.addEventListener('click', toggleFavorite);
+
+            // Share button
+            elements.shareBtn.addEventListener('click', showShareModal);
+            elements.closeShareModal.addEventListener('click', hideShareModal);
+            elements.copyLink.addEventListener('click', copyShareLink);
+
+            // Random poem refresh
+            elements.refreshRandom.addEventListener('click', loadRandomPoem);
+
+            // Breadcrumbs
+            elements.currentBookCrumb.addEventListener('click', () => {
+                if (appState.currentBook) {
+                    showBookPoems(appState.currentBook);
+                }
+            });
+            
+            elements.currentPoemCrumb.addEventListener('click', () => {
+                if (appState.currentPoem) {
+                    showSinglePoem(appState.currentBook, appState.currentPoem.id);
+                }
+            });
+        }
+
+        // Show a specific section and hide others
+        function showSection(section) {
+            // Hide all sections
+            document.querySelectorAll('.section-content').forEach(s => {
+                s.classList.add('hidden');
+            });
+            elements.poemsDisplaySection.classList.add('hidden');
+            elements.searchResultsSection.classList.add('hidden');
+            
+            // Show the requested section
+            if (section === 'home') {
+                elements.homeSection.classList.remove('hidden');
+            } else if (section === 'masnavi') {
+                elements.masnaviSection.classList.remove('hidden');
+                loadBookContent('Маснавии Маънавӣ');
+            } else if (section === 'divan') {
+                elements.divanSection.classList.remove('hidden');
+                loadBookContent('Девони Шамс');
+            } else if (section === 'favorites') {
+                elements.favoritesSection.classList.remove('hidden');
+                displayFavorites();
+            } else if (section === 'about') {
+                elements.aboutSection.classList.remove('hidden');
+            }
+        }
+
+        // Display all books
+        function displayBooks() {
+            elements.booksList.innerHTML = '';
+            
+            if (!appState.books || appState.books.length === 0) {
+                elements.booksList.innerHTML = `
+                    <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded">
+                        <p>Ҳоло ягон китоб дастрас нест.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            const booksFragment = document.createDocumentFragment();
+            
+            appState.books.forEach(book => {
+                const bookDiv = document.createElement('div');
+                bookDiv.className = 'bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300 h-full flex flex-col';
+                bookDiv.innerHTML = `
+                    <div class="flex flex-col h-full">
+                        <div class="book-cover h-40 mb-4" style="background: linear-gradient(135deg, ${getRandomColor()});">
+                            <span class="text-white text-center text-4xl">${getBookInitials(book.book_title)}</span>
+                        </div>
+                        <h2 class="text-xl font-semibold text-red-800 mb-2 cursor-pointer hover:text-red-600 transition duration-300">
+                            ${book.book_title}
+                        </h2>
+                        <div class="flex justify-between items-center text-sm text-gray-500 mt-auto">
+                            <button class="text-red-700 hover:text-red-900 font-medium">
+                                Дидан <i class="fas fa-arrow-left mr-1"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                // Add click event
+               bookDiv.querySelector('h2').addEventListener('click', () => showBookPoems(bookId));
+                bookDiv.querySelector('button').addEventListener('click', () => showBookPoems(bookId));
+                
+                booksFragment.appendChild(bookDiv);
+            });
+            
+            elements.booksList.appendChild(booksFragment);
+        }
+
+        // Get initials from book title
+        function getBookInitials(title) {
+            return title.split(' ')
+                .filter(word => word.length > 3) // Skip small words
+                .map(word => word[0])
+                .join('')
+                .toUpperCase();
+        }
+
+        // Generate a random color for book covers
+        function getRandomColor() {
+            const colors = [
+                '#8e2323, #5a1515',
+                '#4a6b3a, #2d4a1f',
+                '#3a5a78, #1f3a5a',
+                '#784a5a, #5a1f3a',
+                '#5a784a, #3a5a1f',
+                '#4a5a78, #1f3a5a'
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Show all poems in a book with pagination
+        function showBookPoems(bookId) {
+            const book = appState.poemData.books[bookId];
+            if (!book) return;
+            
+            appState.currentBook = bookId;
+            appState.currentBookPoems = book.poems;
+            appState.currentPage = 1;
+            
+            // Update breadcrumbs
+            elements.currentBookCrumb.textContent = book.title;
+            elements.currentPoemCrumb.classList.add('hidden');
+            
+            // Hide other sections and show poems display
+            hideAllSections();
+            elements.poemsDisplaySection.classList.remove('hidden');
+            trackPageView(`book:${bookId}`);
+            
+            // Display book title
+            elements.currentPoem.innerHTML = `
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-red-800 mb-2">${book.title}</h2>
+                    <p class="text-lg text-gray-600">${book.description}</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="poems-grid"></div>
+                <div id="pagination-controls" class="mt-6 flex justify-center"></div>
+            `;
+            
+            displayPoemsPage();
+        }
+
+        // Display poems for current page
+        function displayPoemsPage() {
+            const poemsGrid = document.getElementById('poems-grid');
+            const paginationControls = document.getElementById('pagination-controls');
+            
+            if (!poemsGrid || !paginationControls) return;
+            
+            poemsGrid.innerHTML = '';
+            
+            const startIdx = (appState.currentPage - 1) * appState.poemsPerPage;
+            const endIdx = startIdx + appState.poemsPerPage;
+            const poemsToShow = appState.currentBookPoems.slice(startIdx, endIdx);
+            
+            if (poemsToShow.length === 0) {
+                poemsGrid.innerHTML = `
+                    <div class="col-span-2 bg-gray-100 p-8 text-center text-gray-600 rounded-lg">
+                        <i class="fas fa-book-open text-3xl mb-3 text-gray-400"></i>
+                        <p>Ҳоло ягон шеър дастрас нест.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            poemsToShow.forEach((poem, idx) => {
+                const globalIndex = startIdx + idx;
+                const poemDiv = document.createElement('div');
+                poemDiv.className = 'bg-gray-50 hover:bg-gray-100 p-4 rounded-lg transition duration-300 cursor-pointer border-l-4 border-red-200';
+                poemDiv.innerHTML = `
+                    <h3 class="text-xl font-medium text-red-700 mb-2">
+                        ${poem.title || "Бе ном"}
+                    </h3>
+                    <div class="persian-font text-gray-700 mb-2">
+                        ${poem.verses?.[0] || "Матн дастрас нест"}
+                    </div>
+                    <div class="flex justify-between items-center text-sm text-gray-500">
+                        <span>${globalIndex + 1} аз ${appState.currentBookPoems.length}</span>
+                        <button class="text-red-600 hover:text-red-800">
+                            Хондан <i class="fas fa-arrow-right ml-1"></i>
+                        </button>
+                    </div>
+                `;
+                
+                poemDiv.addEventListener('click', () => showSinglePoem(appState.currentBook, poem.id));
+                poemDiv.querySelector('button').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    showSinglePoem(appState.currentBook, poem.id);
+                });
+                
+                poemsGrid.appendChild(poemDiv);
+            });
+            
+            // Add pagination controls
+            const totalPages = Math.ceil(appState.currentBookPoems.length / appState.poemsPerPage);
+            
+            if (totalPages > 1) {
+                paginationControls.innerHTML = '';
+                
+                // Previous button
+                if (appState.currentPage > 1) {
+                    const prevBtn = document.createElement('button');
+                    prevBtn.className = 'mx-1 px-3 py-1 bg-gray-200 rounded hover:bg-gray-300';
+                    prevBtn.innerHTML = '<i class="fas fa-arrow-right"></i>';
+                    prevBtn.addEventListener('click', () => {
+                        appState.currentPage--;
+                        displayPoemsPage();
+                    });
+                    paginationControls.appendChild(prevBtn);
+                }
+                
+                // Page numbers
+                for (let i = 1; i <= totalPages; i++) {
+                    const pageBtn = document.createElement('button');
+                    pageBtn.className = `mx-1 px-3 py-1 rounded ${i === appState.currentPage ? 'bg-red-600 text-white' : 'bg-gray-200 hover:bg-gray-300'}`;
+                    pageBtn.textContent = i;
+                    pageBtn.addEventListener('click', () => {
+                        appState.currentPage = i;
+                        displayPoemsPage();
+                    });
+                    paginationControls.appendChild(pageBtn);
+                }
+                
+                // Next button
+                if (appState.currentPage < totalPages) {
+                    const nextBtn = document.createElement('button');
+                    nextBtn.className = 'mx-1 px-3 py-1 bg-gray-200 rounded hover:bg-gray-300';
+                    nextBtn.innerHTML = '<i class="fas fa-arrow-left"></i>';
+                    nextBtn.addEventListener('click', () => {
+                        appState.currentPage++;
+                        displayPoemsPage();
+                    });
+                    paginationControls.appendChild(nextBtn);
+                }
+            } else {
+                paginationControls.innerHTML = '';
+            }
+        }
+
+        // Show a single poem
+        function showSinglePoem(bookId, poemId) {
+            const book = appState.poemData.books[bookId];
+            if (!book) return;
+            
+            const poem = book.poems.find(p => p.id === poemId);
+            if (!poem) return;
+            
+            appState.currentBook = bookId;
+            appState.currentPoem = poem;
+            appState.currentPoemIndex = book.poems.findIndex(p => p.id === poemId);
+            
+            // Update breadcrumbs
+            elements.currentBookCrumb.textContent = book.title;
+            elements.currentPoemCrumb.classList.remove('hidden');
+            elements.currentPoemCrumb.querySelector('span').textContent = poem.title || "Бе ном";
+            
+            // Hide other sections and show poems display
+            hideAllSections();
+            elements.poemsDisplaySection.classList.remove('hidden');
+            trackPageView(`poem:${bookId}:${poemId}`);
+            
+            // Display the poem
+            elements.currentPoem.innerHTML = `
+                <h2 class="text-2xl font-bold text-red-800 mb-4">${poem.title || "Бе ном"}</h2>
+                <div class="persian-font text-xl space-y-4">
+                    ${poem.verses.map(verse => `<p>${verse}</p>`).join('')}
+                </div>
+            `;
+            
+            // Show/hide prev/next buttons
+            elements.prevPoem.classList.toggle('hidden', appState.currentPoemIndex <= 0);
+            elements.nextPoem.classList.toggle('hidden', appState.currentPoemIndex >= book.poems.length - 1);
+            
+            // Update favorite button state
+            updateFavoriteButton(bookId, poemId);
+        }
+
+        // Show previous poem in the book
+        function showPreviousPoem() {
+            if (appState.currentPoemIndex > 0) {
+                const prevPoem = appState.poemData.books[appState.currentBook].poems[appState.currentPoemIndex - 1];
+                showSinglePoem(appState.currentBook, prevPoem.id);
+            }
+        }
+
+        // Show next poem in the book
+        function showNextPoem() {
+            const poems = appState.poemData.books[appState.currentBook].poems;
+            if (appState.currentPoemIndex < poems.length - 1) {
+                const nextPoem = poems[appState.currentPoemIndex + 1];
+                showSinglePoem(appState.currentBook, nextPoem.id);
+            }
+        }
+
+        // Toggle favorite status of current poem
+        function toggleFavorite() {
+            if (!appState.currentBook || !appState.currentPoem) return;
+            
+            const poemKey = `${appState.currentBook}-${appState.currentPoem.id}`;
+            
+            if (appState.favorites[poemKey]) {
+                delete appState.favorites[poemKey];
+            } else {
+                appState.favorites[poemKey] = {
+                    bookId: appState.currentBook,
+                    poemId: appState.currentPoem.id,
+                    title: appState.currentPoem.title,
+                    firstVerse: appState.currentPoem.verses[0]
+                };
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('favorites', JSON.stringify(appState.favorites));
+            
+            // Update button state
+            updateFavoriteButton(appState.currentBook, appState.currentPoem.id);
+            
+            // Update favorites UI if on favorites page
+            if (!elements.favoritesSection.classList.contains('hidden')) {
+                displayFavorites();
+            }
+        }
+
+        // Update favorite button state
+        function updateFavoriteButton(bookId, poemId) {
+            if (!elements.favoriteBtn) return;
+            
+            const poemKey = `${bookId}-${poemId}`;
+            const isFavorite = !!appState.favorites[poemKey];
+            
+            elements.favoriteBtn.innerHTML = isFavorite 
+                ? '<i class="fas fa-heart mr-2"></i> Аз 'писандида' нест кардан' 
+                : '<i class="far fa-heart mr-2"></i> Писандида';
+            
+            elements.favoriteBtn.className = isFavorite 
+                ? 'bg-red-200 hover:bg-red-300 text-red-800 px-4 py-2 rounded-lg transition duration-300'
+                : 'bg-red-100 hover:bg-red-200 text-red-800 px-4 py-2 rounded-lg transition duration-300';
+        }
+
+        // Display favorite poems
+        function displayFavorites() {
+            const favoritesList = elements.favoritesList;
+            if (!favoritesList) return;
+            
+            const favorites = Object.values(appState.favorites);
+            
+            if (favorites.length === 0) {
+                favoritesList.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fas fa-heart-broken text-3xl mb-3"></i>
+                        <p>Ҳоло ҳеҷ шеърро интихоб накардаед.</p>
+                        <p class="text-sm mt-2">Барои илова кардани шеърҳо ба писандидаҳо, тугмачаи <i class="fas fa-heart text-red-500"></i>-ро дар поёни ҳар як шеър пахш кунед.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            favoritesList.innerHTML = `
+                <div class="space-y-4">
+                    ${favorites.map(fav => `
+                        <div class="bg-gray-50 hover:bg-gray-100 p-4 rounded-lg transition duration-300 border-l-4 border-red-300">
+                            <h3 class="text-xl font-medium text-red-700 mb-2 cursor-pointer" 
+                                onclick="showSinglePoem('${fav.bookId}', ${fav.poemId})">
+                                ${fav.title || "Бе ном"}
+                            </h3>
+                            <div class="persian-font text-gray-700 mb-2">
+                                ${fav.firstVerse || "Матн дастрас нест"}
+                            </div>
+                            <div class="flex justify-between items-center text-sm text-gray-500">
+                                <span>Аз ${appState.poemData.books[fav.bookId].title}</span>
+                                <button class="text-red-600 hover:text-red-800" 
+                                        onclick="removeFromFavorites('${fav.bookId}', ${fav.poemId})">
+                                    <i class="fas fa-trash-alt mr-1"></i> Тоза кардан
+                                </button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Remove poem from favorites
+        function removeFromFavorites(bookId, poemId) {
+            const poemKey = `${bookId}-${poemId}`;
+            
+            if (appState.favorites[poemKey]) {
+                delete appState.favorites[poemKey];
+                localStorage.setItem('favorites', JSON.stringify(appState.favorites));
+                displayFavorites();
+                
+                // Update favorite button if viewing the same poem
+                if (appState.currentPoem && appState.currentBook === bookId && appState.currentPoem.id === poemId) {
+                    updateFavoriteButton(bookId, poemId);
+                }
+            }
+        }
+
+        // Update favorites UI (button states)
+        function updateFavoritesUI() {
+            if (!appState.currentBook || !appState.currentPoem) return;
+            updateFavoriteButton(appState.currentBook, appState.currentPoem.id);
+        }
+
+        // Load content for a specific book
+        function loadBookContent(bookId) {
+            const book = appState.poemData.books[bookId];
+            if (!book) return;
+            
+            const contentDiv = document.getElementById(`${bookId}-content`);
+            if (!contentDiv) return;
+            
+            contentDiv.innerHTML = `
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-red-800 mb-4">${book.title}</h2>
+                    <p class="text-lg text-gray-600 mb-6">${book.description}</p>
+                    <button onclick="showBookPoems('${bookId}')" 
+                            class="bg-red-700 hover:bg-red-800 text-white px-6 py-3 rounded-lg transition duration-300">
+                        <i class="fas fa-book-open mr-2"></i> Дидани ҳамаи шеърҳо
+                    </button>
+                </div>
+            `;
+        }
+
+        // Load a random poem
+        function loadRandomPoem() {
+            if (!appState.poemData) return;
+            
+            // Get all poems from all books
+            const allPoems = [];
+            for (const bookId in appState.poemData.books) {
+                const book = appState.poemData.books[bookId];
+                allPoems.push(...book.poems.map(p => ({ ...p, bookId })));
+            }
+            
+            if (allPoems.length === 0) {
+                elements.randomPoem.innerHTML = `
+                    <div class="text-center text-gray-500">
+                        <p>Ҳоло ягон шеър дастрас нест.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Select a random poem
+            const randomPoem = allPoems[Math.floor(Math.random() * allPoems.length)];
+            const bookTitle = appState.poemData.books[randomPoem.bookId].title;
+            
+            elements.randomPoem.innerHTML = `
+                <h3 class="text-xl font-semibold text-red-700 mb-2">${randomPoem.title || "Бе ном"}</h3>
+                <p class="text-sm text-gray-500 mb-3">Аз ${bookTitle}</p>
+                <div class="persian-font space-y-2">
+                    ${randomPoem.verses.slice(0, 3).map(verse => `<p>${verse}</p>`).join('')}
+                </div>
+                <div class="mt-4">
+                    <button onclick="showSinglePoem('${randomPoem.bookId}', ${randomPoem.id})" 
+                            class="text-red-600 hover:text-red-800 font-medium">
+                        Хондани ҳамаи шеър <i class="fas fa-arrow-left ml-1"></i>
+                    </button>
+                </div>
+            `;
+        }
+
+        // Populate book dropdown in advanced search
+        function populateBookDropdown() {
+            if (!appState.poemData || !elements.searchBook) return;
+            
+            const select = elements.searchBook;
+            select.innerHTML = '<option value="">Ҳамаи асарҳо</option>';
+            
+            for (const bookId in appState.poemData.books) {
+                const book = appState.poemData.books[bookId];
+                const option = document.createElement('option');
+                option.value = bookId;
+                option.textContent = book.title;
+                select.appendChild(option);
+            }
+        }
+
+        // Search poems based on criteria
+        function searchPoems() {
+            const query = elements.searchInput.value.trim();
+            if (!query) return;
+            
+            const bookId = elements.searchBook.value;
+            const searchType = elements.searchType.value;
+            const exactMatch = elements.exactMatch.checked;
+            
+            // Show loading state
+            elements.searchResultsList.innerHTML = `
+                <div class="text-center py-8">
+                    <div class="loading-spinner"></div>
+                    <p class="mt-2 text-gray-600">Дар ҳоли ҷустуҷӯ...</p>
+                </div>
+            `;
+            
+            // Perform search
+            const results = performSearch(query, bookId, searchType, exactMatch);
+            appState.searchResults = results;
+            
+            // Display results
+            displaySearchResults(results);
+            
+            // Show search results section
+            hideAllSections();
+            elements.searchResultsSection.classList.remove('hidden');
+            trackPageView('search');
+        }
+
+        // Perform the actual search
+        function performSearch(query, bookId, searchType, exactMatch) {
+            const results = [];
+            const searchBooks = bookId ? [appState.poemData.books[bookId]] : Object.values(appState.poemData.books);
+            
+            const searchQuery = exactMatch ? query : query.toLowerCase();
+            
+            searchBooks.forEach(book => {
+                book.poems.forEach(poem => {
+                    let matchFound = false;
+                    
+                    if (searchType === 'title' || searchType === 'all') {
+                        const title = poem.title || '';
+                        const searchTitle = exactMatch ? title : title.toLowerCase();
+                        
+                        if (exactMatch ? searchTitle === searchQuery : searchTitle.includes(searchQuery)) {
+                            matchFound = true;
+                        }
+                    }
+                    
+                    if (!matchFound && (searchType === 'first-verse' || searchType === 'all')) {
+                        const firstVerse = poem.verses?.[0] || '';
+                        const searchVerse = exactMatch ? firstVerse : firstVerse.toLowerCase();
+                        
+                        if (exactMatch ? searchVerse === searchQuery : searchVerse.includes(searchQuery)) {
+                            matchFound = true;
+                        }
+                    }
+                    
+                    if (matchFound) {
+                        results.push({
+                            bookId: book.id,
+                            bookTitle: book.title,
+                            poemId: poem.id,
+                            poemTitle: poem.title,
+                            firstVerse: poem.verses?.[0] || ''
+                        });
+                    }
+                });
+            });
+            
+            return results;
+        }
+
+        // Display search results
+        function displaySearchResults(results) {
+            elements.searchResultsCount.textContent = `${results.length} натиҷа ёфт шуд`;
+            
+            if (results.length === 0) {
+                elements.searchResultsList.innerHTML = `
+                    <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 rounded">
+                        <p>Ҳеҷ натиҷае бо ин маъно ёфт нашуд.</p>
+                        <p class="mt-2 text-sm">Лутфан калимаҳои дигарро санҷед ё ҷустуҷӯи умумитарро истифода баред.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            elements.searchResultsList.innerHTML = `
+                <div class="space-y-4">
+                    ${results.map(result => `
+                        <div class="bg-white hover:bg-gray-50 p-4 rounded-lg shadow-sm transition duration-300 cursor-pointer border-l-2 border-red-200"
+                             onclick="showSinglePoem('${result.bookId}', ${result.poemId})">
+                            <h3 class="text-lg font-medium text-red-700 mb-1">
+                                ${result.poemTitle || "Бе ном"}
+                            </h3>
+                            <p class="text-sm text-gray-500 mb-2">Аз ${result.bookTitle}</p>
+                            <div class="persian-font text-gray-700">
+                                ${result.firstVerse || "Матн дастрас нест"}
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        // Show share modal
+        function showShareModal() {
+            if (!appState.currentBook || !appState.currentPoem) return;
+            
+            // Generate share link
+            const shareUrl = `${window.location.origin}${window.location.pathname}?book=${appState.currentBook}&poem=${appState.currentPoem.id}`;
+            elements.shareLink.value = shareUrl;
+            
+            // Show modal
+            elements.shareModal.classList.remove('hidden');
+        }
+
+        // Hide share modal
+        function hideShareModal() {
+            elements.shareModal.classList.add('hidden');
+        }
+
+        // Copy share link to clipboard
+        function copyShareLink() {
+            elements.shareLink.select();
+            document.execCommand('copy');
+            
+            // Show feedback
+            const originalText = elements.copyLink.innerHTML;
+            elements.copyLink.innerHTML = '<i class="fas fa-check mr-1"></i> Нусха шуд';
+            
+            setTimeout(() => {
+                elements.copyLink.innerHTML = originalText;
+            }, 2000);
+        }
+
+        // Go back to previous view
+        function backToPreviousView() {
+            if (!elements.poemsDisplaySection.classList.contains('hidden')) {
+                if (appState.currentPoem) {
+                    showBookPoems(appState.currentBook);
+                } else {
+                    showSection('home');
+                }
+            } else if (!elements.searchResultsSection.classList.contains('hidden')) {
+                showSection('home');
+            }
+        }
+
+        // Initialize the app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', init);
+
+        // Make functions available globally for onclick attributes
+        window.showBookPoems = showBookPoems;
+        window.showSinglePoem = showSinglePoem;
+        window.removeFromFavorites = removeFromFavorites;
+    </script>
+</body>
+</html>
